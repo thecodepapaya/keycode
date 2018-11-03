@@ -13,7 +13,7 @@ struct userdb
 void practice(FILE *);        //done
 void showstats(FILE *); //done
 void leaderboard(void);
-void acheivements(void);
+void acheivements(void);                    
 int match(void);            //done
 int scoreupdate(FILE *);   //done
 void showques(void);        //dones
@@ -26,21 +26,21 @@ char username[15];
 
 int main()
 {
-    system("clear");
     int choice;
     char flag='y';
     FILE *pos;
+    system("clear");
     welcome();
     pos=login();
     showstats(pos);
     do{
-        prinf(" 1.) Practice\n "
+        printf(" 1.) Practice\n "
                 "2.) Show Leaderboard\n "
                 "3.) Your Acheivements\n "
                 "4.) Logout\n "
                 "5.) Exit\n\n "
                 "Your Choice: ");
-        scanf("%d",choice);
+        scanf("%d",&choice);
         switch(choice)
         {
             case 1: practice(pos);
@@ -69,15 +69,16 @@ void practice(FILE *pos)
         showques();
         printf("\n !!!---Press enter to open nano text editor.---!!!\n");
         getchar();
+        getchar();
         system("nano sol.c");
     do{
         printf("%s","\n 1.) View question again\n "
                         "2.) Open text editor again\n "
-                        "3.) Compile "
-                        "4.) Run with custom input\n"
-                        "5.) Submit your code"
-                        "6.) Show answer"
-                        "0.) Exit\n\n"
+                        "3.) Compile\n "
+                        "4.) Run with custom input\n "
+                        "5.) Submit your code\n "
+                        "6.) Show answer\n "
+                        "0.) Exit\n\n "
                         "Your Choice: ");
         scanf("%d",&choice);
         comp=0;
@@ -150,11 +151,11 @@ FILE* login(void)
   /*  printf(" Enter username: ");
     getchar();
     scanf("%[^\n]s",readname);      */
-    printf(" Enter Username: ");
+    printf("\n\n Enter Username: ");
     getchar();
     scanf("%[^\n]s",getuser.uname); 
-    fptr=fopen("userlog.dat","a+b");
-    while(fptr!=NULL)
+    fptr=fopen("userdata.dat","ab+");
+    while(!feof(fptr))
     {
         fread(&f_user,sizeof(f_user),1,fptr);
         if(!strcmp(f_user.uname,getuser.uname))
@@ -176,7 +177,7 @@ FILE* login(void)
 void leaderboard(void)
 {
     FILE *fptr;
-    fptr=fopen("userlog.dat","rb");
+    fptr=fopen("userdata.dat","rb");
     while(fptr!=NULL)
     {
         fread(&f_user,sizeof(f_user),1,fptr);
@@ -188,7 +189,7 @@ void leaderboard(void)
 int scoreupdate(FILE *pos)
 {
     FILE *fptr;
-    fptr=fopen("userlog.dat","rtb");
+    fptr=fopen("userdata.dat","rtb");
     fptr=pos;
     fread(&f_user,sizeof(f_user),1,fptr);
     f_user.score+=10;
@@ -197,6 +198,17 @@ int scoreupdate(FILE *pos)
     fclose(fptr);
     return 0;
 }
+
+void leaderboard(void)
+{
+    printf("\n Oops! This function is currently under development!");
+}
+
+void acheivements(void)
+{
+    printf("\n Oops! This function is currently under development!");
+}
+
 
 int match(void)
 {
@@ -217,15 +229,15 @@ void showans(void)
 
 void showstats(FILE *fptr)
 {
-//    fptr=fopen("userlog.dat","r");
-    printf("\n Username: %s\n Questions solved: %d\nScore: %d\n",f_user.uname,f_user.no_of_ques,f_user.score);
+//    fptr=fopen("userdata.dat","r");
+    printf("\n Username: %s\n Questions solved: %d\n Score: %d\n\n",f_user.uname,f_user.no_of_ques,f_user.score);
 }
 
 void welcome(void)
 {
-    printf("\t##  ##  ###### ##      ## ##### ##### #####   ######\n"
-           "\t## ##   ##       ##  ##   ##    ##  # ##   #  ##    \n"
-           "\t###     ####       ##     ##    ##  # ##    # ####  \n"
-           "\t## ##   ##         ##     ##    ##  # ##   #  ##    \n" 
-           "\t##  ##  ######     ##     ##### ##### #####   ######\n");
+    printf("\t##  ##  ###### ##      ##  #####  #####  #####   ######\n"
+           "\t## ##   ##       ##  ##   ##     ##    # ##   #  ##    \n"
+           "\t###     ####       ##     ##     ##    # ##    # ####  \n"
+           "\t## ##   ##         ##     ##     ##    # ##   #  ##    \n" 
+           "\t##  ##  ######     ##      #####  #####  #####   ######\n");
 }
