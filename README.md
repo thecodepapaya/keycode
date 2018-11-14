@@ -1,6 +1,6 @@
 # keycode
 
-A program in C which helps you to practice coding :sunglasses:
+A program in C that can help you to practice coding :sunglasses:
 
 ## What we built
 
@@ -12,7 +12,7 @@ This project was made as part of the end of the semester project submission for 
 
 Our Team consisted of three members :sunglasses:
 
-- [Ashutosh Singh](www.github.com/ashutoshsingh05)
+- [Ashutosh Singh](https://github.com/ashutoshsingh05)
 - [Darshan Patel](www.github.com/drashanpatel44)
 - [Harsh Kakani](www.github.com/hkmartian)
 
