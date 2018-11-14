@@ -4,7 +4,7 @@ A program in C that can help you to practice coding :sunglasses:
 
 ## What we built
 
-We've buit a C program which replicates an enivironment similar to popular online code practising websites like [Hackerrank](www.hackerrank.com) and [Code Chef](www.codechef.com). Just like these websites, this program provides basic functionalities like compiling your code, code submission, leaderboard, experience level batches, keeping track of number of questions solved. The programs makes fairly extensive use of files and system commands.
+We've buit a C program which replicates an enivironment similar to popular online code practising websites like [Hackerrank](https://www.hackerrank.com) and [Code Chef](https://www.codechef.com). Just like these websites, this program provides basic functionalities like compiling your code, code submission, leaderboard, experience level batches, keeping track of number of questions solved. The programs makes fairly extensive use of files and system commands.
 
 ## Why was it built
 
@@ -13,8 +13,8 @@ This project was made as part of the end of the semester project submission for 
 Our Team consisted of three members :sunglasses:
 
 - [Ashutosh Singh](https://github.com/ashutoshsingh05)
-- [Darshan Patel](www.github.com/drashanpatel44)
-- [Harsh Kakani](www.github.com/hkmartian)
+- [Darshan Patel](https://github.com/drashanpatel44)
+- [Harsh Kakani](https://github.com/hkmartian)
 
 ## How to use
 
@@ -28,7 +28,7 @@ gcc keycode.c -o keycode.out && ./keycode.out
 ```
 ## Screenshots
 
-![KeyCode: screenshot](/images/preview)
+![KeyCode: screenshot](images/preview.png)
 
 ## Credits
 
