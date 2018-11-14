@@ -12,8 +12,8 @@ struct userdb
 
 void practice(FILE *);        //done
 void showstats(FILE *); //done
-void leaderboard(void);
-void acheivements(void);                    
+void leaderboard(void);     //done
+void acheivements(void);
 int match(void);            //done
 int scoreupdate(FILE *);   //done
 void showques(void);        //dones
@@ -34,7 +34,7 @@ int main()
     pos=login();
     showstats(pos);
     do{
-        printf(" 1.) Practice\n "
+        printf("\n\n 1.) Practice\n "
                 "2.) Show Leaderboard\n "
                 "3.) Your Acheivements\n "
                 "4.) Logout\n "
@@ -55,19 +55,20 @@ int main()
             default: printf(" Incorrect Input!!!\n");
                      break;
         }
-        printf("\n Want to continue?(y/n): ");
-        scanf("%c",&flag);
-    }while(flag=='y' || flag=='Y');
+ /*       printf("\n Want to continue?(y/n): ");
+        scanf("%c",&flag);*/
+    }while(1);
     return 0;
 }
 
 void practice(FILE *pos)
 {
     char ch='y';
-    int choice,val,comp,exec;
+    int choice,val,comp=0,exec=0;
     
+        system("rm sol.c;rm sol;rm output.txt");
         showques();
-        printf("\n !!!---Press enter to open nano text editor.---!!!\n");
+        printf("\n !!!---Press enter to open nano text editor---!!!\n");
         getchar();
         getchar();
         system("nano sol.c");
@@ -81,8 +82,6 @@ void practice(FILE *pos)
                         "0.) Exit\n\n "
                         "Your Choice: ");
         scanf("%d",&choice);
-        comp=0;
-        exec=0;
         switch(choice)
         {
             case 1: showques();
@@ -90,26 +89,31 @@ void practice(FILE *pos)
             case 2: system("nano sol.c");
                     break;
             case 3: val=system("gcc sol.c -o sol");
-                    if(val)
+                    if(!val)
                     {
-                        printf("\n GCC returned error %d.\n Compilation unsuccessful.\n",val);
+                        printf("\n Compilation Successful.\n");
+                        comp=1;
                     }
                     else
                     {
-                        comp=1;
+                        printf("\n GCC returned error %d.\n Compilation unsuccessful.\n",val);
+                        comp=0;
                     }
                     break;
-            case 4: printf("\n Provide your Input here(if any).\n\n");
-                    val=system("sol");
+            case 4: 
                     if(!comp)
                     {
                         printf("\n You need to successfully compile your program first!!!");
+                        exec=0;
                     }
                     else
                     {
+                        printf("\n Provide your Input here(if any).\n\n");
+                        val=system("./sol");
                         if(val)
                         {
                             printf("\n Execution unsuccessful.\n Error %d.\n",val);
+                            exec=0;
                         }
                         else
                         {
@@ -120,7 +124,7 @@ void practice(FILE *pos)
                     break;
             case 5: if(exec==1 || comp==1)
                     {
-                        system("sol > output.txt"); 
+                        system("./sol > output.txt"); 
                         val=match();
                         if(!val)
                         {
@@ -145,16 +149,19 @@ void practice(FILE *pos)
 
 FILE* login(void)
 {
-    int flag=0;
+    int flag=0,i=0;
     FILE *fptr;
-    char readname[15];
+    char readname[15],ch=' ';
   /*  printf(" Enter username: ");
     getchar();
     scanf("%[^\n]s",readname);      */
     printf("\n\n Enter Username: ");
-    getchar();
-    scanf("%[^\n]s",getuser.uname); 
-    fptr=fopen("userdata.dat","ab+");
+
+    scanf("%s",readname);
+  //                                  printf("\n read string : %s",readname);
+    strcpy(getuser.uname,readname);
+ //                                  printf("\ncopied to getuser.uname");
+    fptr=fopen("userdata.dat","a+b");
     while(!feof(fptr))
     {
         fread(&f_user,sizeof(f_user),1,fptr);
@@ -167,30 +174,34 @@ FILE* login(void)
     }
     if(!flag)
     {
+     //   fwrite(&getuser,sizeof(getuser),1,fptr);
         fwrite(&getuser,sizeof(getuser),1,fptr);
         printf("\n New Profile created!!\n");
     }
     fseek(fptr,-sizeof(getuser),SEEK_CUR);
     return fptr;
 }
-/*
+
 void leaderboard(void)
 {
-    FILE *fptr;
-    fptr=fopen("userdata.dat","rb");
-    while(fptr!=NULL)
+    FILE *readptr;
+    readptr=fopen("userdata.dat","rb");
+    printf(" Name\t\tScore\tExp Level\tQuestions\n");
+    while(!feof(readptr))
     {
-        fread(&f_user,sizeof(f_user),1,fptr);
-
+        fread(&f_user,sizeof(f_user),1,readptr);
+        printf("\n %s\t\t%d\t%d\t%d",f_user.uname,f_user.score,f_user.exp_level,f_user.no_of_ques);
     }
+    fclose(readptr);
 }
-*/
+
 
 int scoreupdate(FILE *pos)
 {
     FILE *fptr;
-    fptr=fopen("userdata.dat","rtb");
+    fptr=fopen("userdata.dat","br+");
     fptr=pos;
+//    fseek(fptr,-sizeof(f_user),SEEK_CUR);
     fread(&f_user,sizeof(f_user),1,fptr);
     f_user.score+=10;
     fseek(fptr,-sizeof(f_user),SEEK_CUR);
@@ -199,10 +210,6 @@ int scoreupdate(FILE *pos)
     return 0;
 }
 
-void leaderboard(void)
-{
-    printf("\n Oops! This function is currently under development!");
-}
 
 void acheivements(void)
 {
@@ -227,17 +234,20 @@ void showans(void)
     system("firefox https://www.hackerrank.com/domains/c?filters%5Bstatus%5D%5B%5D=unsolved&badge_type=c");
 }
 
-void showstats(FILE *fptr)
+void showstats(FILE *pos)
 {
-//    fptr=fopen("userdata.dat","r");
+    FILE *fptr;
+    fptr=fopen("userdata.dat","rb");
+    fptr=pos;
+    fread(&f_user,sizeof(f_user),1,fptr);
     printf("\n Username: %s\n Questions solved: %d\n Score: %d\n\n",f_user.uname,f_user.no_of_ques,f_user.score);
 }
 
 void welcome(void)
 {
-    printf("\t##  ##  ###### ##      ##  #####  #####  #####   ######\n"
-           "\t## ##   ##       ##  ##   ##     ##    # ##   #  ##    \n"
-           "\t###     ####       ##     ##     ##    # ##    # ####  \n"
-           "\t## ##   ##         ##     ##     ##    # ##   #  ##    \n" 
-           "\t##  ##  ######     ##      #####  #####  #####   ######\n");
+    printf("\t##  ##  ###### ##      ##   #####  #####  #####   ######\n"
+           "\t## ##   ##       ##  ##    ##     ##    # ##   #  ##    \n"
+           "\t###     ####       ##      ##     ##    # ##    # ####  \n"
+           "\t## ##   ##         ##      ##     ##    # ##   #  ##    \n" 
+           "\t##  ##  ######     ##       #####  #####  #####   ######\n");
 }
