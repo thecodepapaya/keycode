@@ -186,7 +186,7 @@ void leaderboard(void)
 {
     FILE *readptr;
     readptr=fopen("userdata.dat","rb");
-    printf(" NAME\t\tScore\tExp Level\tQuestions\n");
+    printf(" Name\t\tScore\tExp Level\tQuestions\n");
     while(!feof(readptr))
     {
         fread(&f_user,sizeof(f_user),1,readptr);
@@ -199,8 +199,9 @@ void leaderboard(void)
 int scoreupdate(FILE *pos)
 {
     FILE *fptr;
-    fptr=fopen("userdata.dat","wtb");
+    fptr=fopen("userdata.dat","br+");
     fptr=pos;
+//    fseek(fptr,-sizeof(f_user),SEEK_CUR);
     fread(&f_user,sizeof(f_user),1,fptr);
     f_user.score+=10;
     fseek(fptr,-sizeof(f_user),SEEK_CUR);
