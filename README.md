@@ -13,7 +13,7 @@ This project was made as part of the end of the semester project submission for 
 Our Team consisted of three members :sunglasses:
 
 - [Ashutosh Singh](https://github.com/ashutoshsingh05)
-- [Darshan Patel](https://github.com/drashanpatel44)
+- [Darshan Patel](https://github.com/darshanpatel44)
 - [Harsh Kakani](https://github.com/hkmartian)
 
 ## How to use
@@ -32,8 +32,8 @@ gcc keycode.c -o keycode.out && ./keycode.out
 
 ## Credits
 
-- For the awesome idea and making an impressive UI: [Darshan Patel](www.github.com/darshanpatel44)
-- Coding and logic development: [Ashutosh Singh](www.github.com/ashutoshsingh05)
-- Everything else: [Harsh Kakani](www.github.com/hkmartina)
+- For the awesome idea and making an impressive UI: [Darshan Patel](https://github.com/darshanpatel44)
+- Coding and logic development: [Ashutosh Singh](https://github.com/ashutoshsingh05)
+- Provided sample Q & A with solutions: [Harsh Kakani](https://github.com/hkmartian)
 
 **Liked the project? Don't forget to give us a :star:**
