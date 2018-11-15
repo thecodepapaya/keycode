@@ -6,21 +6,18 @@ struct userdb
 {
     int score;
     int no_of_ques;
-    int exp_level;
     char uname[15];
-}getuser={0,0,0,"NULL"},f_user;
+}getuser={0,0,"NULL"},f_user;
 
 void practice(FILE *);        //done
 void showstats(FILE *); //done
-void leaderboard(void);     //done
-void acheivements(void);
+void leaderboard(void);  // done
 int match(void);            //done
 int scoreupdate(FILE *);   //done
-void showques(void);        //dones
+void showques(void);        //done
 void showans(void);     //done
 void welcome(void);     //done
 FILE* login(void);  //done
-void updatestats(FILE*);
 
 char username[15];
 
@@ -36,9 +33,8 @@ int main()
     do{
         printf("\n\n 1.) Practice\n "
                 "2.) Show Leaderboard\n "
-                "3.) Your Acheivements\n "
-                "4.) Logout\n "
-                "5.) Exit\n\n "
+                "3.) Logout\n "
+                "4.) Exit\n\n "
                 "Your Choice: ");
         scanf("%d",&choice);
         switch(choice)
@@ -47,13 +43,10 @@ int main()
                     break;
             case 2: leaderboard();
                     break;
-            case 3: acheivements();
+            case 3: main();
                     break;
-            case 4: main();
-                    break;
-            case 5: return 0;
+            case 4: return 0;
             default: printf(" Incorrect Input!!!\n");
-                     break;
         }
  /*       printf("\n Want to continue?(y/n): ");
         scanf("%c",&flag);*/
@@ -159,6 +152,7 @@ FILE* login(void)
 
     scanf("%s",readname);
   //                                  printf("\n read string : %s",readname);
+
     strcpy(getuser.uname,readname);
  //                                  printf("\ncopied to getuser.uname");
     fptr=fopen("userdata.dat","r+b");
@@ -185,12 +179,21 @@ FILE* login(void)
 void leaderboard(void)
 {
     FILE *readptr;
+    char exp_level[13];
     readptr=fopen("userdata.dat","rb");
     printf(" Name\t\tScore\tExp Level\tQuestions\n");
-    while(!feof(readptr))
+    while(fread(&f_user,sizeof(f_user),1,readptr))
     {
-        fread(&f_user,sizeof(f_user),1,readptr);
-        printf("\n %s\t\t%d\t%d\t\t%d",f_user.uname,f_user.score,f_user.exp_level,f_user.no_of_ques);
+        switch(f_user.no_of_ques)
+        {
+            case 0: strcpy(exp_level,"Unranked"); break;
+            case 1: strcpy(exp_level,"Beginner"); break;
+            case 2: strcpy(exp_level,"Intermediate"); break;
+            case 3: strcpy(exp_level,"Advanced"); break;
+            case 4: strcpy(exp_level,"Ace"); break;
+            default: strcpy(exp_level,"Legendary"); break;
+        }
+        printf("\n %s\t\t%d\t%s\t\t%d",f_user.uname,f_user.score,exp_level,f_user.no_of_ques);
     }
     fclose(readptr);
 }
@@ -201,6 +204,7 @@ int scoreupdate(FILE *pos)
     FILE *fptr;
     fptr=fopen("userdata.dat","r+b");
     fptr=pos;
+
 //    fseek(fptr,-sizeof(f_user),SEEK_CUR);
     fread(&f_user,sizeof(f_user),1,fptr);
     f_user.score+=10;
@@ -209,12 +213,6 @@ int scoreupdate(FILE *pos)
     fwrite(&f_user,sizeof(f_user),1,fptr);
     fclose(fptr);
     return 0;
-}
-
-
-void acheivements(void)
-{
-    printf("\n Oops! This function is currently in development!");
 }
 
 
