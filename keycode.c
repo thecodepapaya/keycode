@@ -151,7 +151,7 @@ FILE* login(void)
 {
     int flag=0,i=0;
     FILE *fptr;
-    char readname[15],ch=' ';
+    char readname[15];
   /*  printf(" Enter username: ");
     getchar();
     scanf("%[^\n]s",readname);      */
@@ -161,7 +161,7 @@ FILE* login(void)
   //                                  printf("\n read string : %s",readname);
     strcpy(getuser.uname,readname);
  //                                  printf("\ncopied to getuser.uname");
-    fptr=fopen("userdata.dat","a+b");
+    fptr=fopen("userdata.dat","r+b");
     while(!feof(fptr))
     {
         fread(&f_user,sizeof(f_user),1,fptr);
@@ -190,7 +190,7 @@ void leaderboard(void)
     while(!feof(readptr))
     {
         fread(&f_user,sizeof(f_user),1,readptr);
-        printf("\n %s\t\t%d\t%d\t%d",f_user.uname,f_user.score,f_user.exp_level,f_user.no_of_ques);
+        printf("\n %s\t\t%d\t%d\t\t%d",f_user.uname,f_user.score,f_user.exp_level,f_user.no_of_ques);
     }
     fclose(readptr);
 }
@@ -199,11 +199,12 @@ void leaderboard(void)
 int scoreupdate(FILE *pos)
 {
     FILE *fptr;
-    fptr=fopen("userdata.dat","br+");
+    fptr=fopen("userdata.dat","r+b");
     fptr=pos;
 //    fseek(fptr,-sizeof(f_user),SEEK_CUR);
     fread(&f_user,sizeof(f_user),1,fptr);
     f_user.score+=10;
+    f_user.no_of_ques+=1;
     fseek(fptr,-sizeof(f_user),SEEK_CUR);
     fwrite(&f_user,sizeof(f_user),1,fptr);
     fclose(fptr);
@@ -213,7 +214,7 @@ int scoreupdate(FILE *pos)
 
 void acheivements(void)
 {
-    printf("\n Oops! This function is currently under development!");
+    printf("\n Oops! This function is currently in development!");
 }
 
 
