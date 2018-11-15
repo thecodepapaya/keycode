@@ -12,20 +12,23 @@ struct userdb
 void practice(FILE *);        //done
 void showstats(FILE *); //done
 void leaderboard(void);  // done
-int match(void);            //done
+int match(int);            //done
 int scoreupdate(FILE *);   //done
 void showques(void);        //done
 void showans(void);     //done
 void welcome(void);     //done
 FILE* login(void);  //done
+FILE *getpos(void); //done
 
 char username[15];
+int qnum=0;
 
 int main()
 {
     int choice;
     char flag='y';
     FILE *pos;
+    system("rm sol.c;rm sol;rm output.txt;touch userdata.dat");
     system("clear");
     welcome();
     pos=login();
@@ -34,7 +37,7 @@ int main()
         printf("\n\n 1.) Practice\n "
                 "2.) Show Leaderboard\n "
                 "3.) Logout\n "
-                "4.) Exit\n\n "
+                "0.) Exit\n\n "
                 "Your Choice: ");
         scanf("%d",&choice);
         switch(choice)
@@ -58,8 +61,7 @@ void practice(FILE *pos)
 {
     char ch='y';
     int choice,val,comp=0,exec=0;
-    
-        system("rm sol.c;rm sol;rm output.txt");
+        printf("\n File ptr in practice beg: %ld\n",ftell(pos));
         showques();
         printf("\n !!!---Press enter to open nano text editor---!!!\n");
         getchar();
@@ -72,9 +74,11 @@ void practice(FILE *pos)
                         "4.) Run with custom input\n "
                         "5.) Submit your code\n "
                         "6.) Show answer\n "
-                        "0.) Exit\n\n "
+                        "0.) Go Back\n\n "
                         "Your Choice: ");
         scanf("%d",&choice);
+        pos=getpos();
+        printf("\n File ptr in practice do while: %ld\n",ftell(pos));
         switch(choice)
         {
             case 1: showques();
@@ -118,13 +122,13 @@ void practice(FILE *pos)
             case 5: if(exec==1 || comp==1)
                     {
                         system("./sol > output.txt"); 
-                        val=match();
+                        val=match(qnum);
                         if(!val)
                         {
                             printf("\n Answer matched!!!");
                             if(!scoreupdate(pos))
                                 printf("\n Score Updated!");
-
+                            qnum++;
                         }
                     }
                     else
@@ -204,7 +208,7 @@ int scoreupdate(FILE *pos)
     FILE *fptr;
     fptr=fopen("userdata.dat","r+b");
     fptr=pos;
-
+    printf("\n File ptr in scoreupd: %ld\n",ftell(fptr));
 //    fseek(fptr,-sizeof(f_user),SEEK_CUR);
     fread(&f_user,sizeof(f_user),1,fptr);
     f_user.score+=10;
@@ -215,31 +219,97 @@ int scoreupdate(FILE *pos)
     return 0;
 }
 
+FILE *getpos()
+{
+    FILE *fptr;
+    fptr=fopen("userdata.dat","r+b");
+    while(!feof(fptr))
+    {
+        fread(&f_user,sizeof(f_user),1,fptr);
+        if(!strcmp(f_user.uname,getuser.uname))
+        {
+            break;
+        }
+    }
+    fseek(fptr,-sizeof(getuser),SEEK_CUR);
+    return fptr;  
+}
 
-int match(void)
+int match(int solnum)
 {
     int ret;
-    ret=system("diff output.txt solution.txt");
+    switch(solnum)
+    {
+        case 0: ret=system("diff -Z output.txt s0.txt");
+                break;
+        case 1: ret=system("diff -Z output.txt s1.txt");
+                break;
+        case 2: ret=system("diff -Z output.txt s2.txt");
+                break;
+        case 3: ret=system("diff -Z output.txt s3.txt");
+                break;
+        case 4: ret=system("diff -Z output.txt s4.txt");
+                break;
+        default: printf("\n Limit Exceeded!!\n");
+    }
     return ret;
 }
 
-void showques(void)
+void showques()
 {
-    system("cat question.txt");
+    switch(qnum)
+    {
+        case 0: system("cat q0.txt");
+                break;
+        case 1: system("cat q1.txt");
+                break;
+        case 2: system("cat q2.txt");
+                break;
+        case 3: system("cat q3.txt");
+                break;
+        case 4: system("cat q4.txt");
+                break;
+        default: printf("\n Sorry we do not have anymore questions for you!!\n");
+    }
 }
 
 void showans(void)
 {
-    system("firefox https://www.hackerrank.com/domains/c?filters%5Bstatus%5D%5B%5D=unsolved&badge_type=c");
+    switch(qnum)
+    {
+        case 0: system("firefox https://www.programiz.com/c-programming/examples/print-sentence");
+                break;
+        case 1: system("firefox https://www.programiz.com/c-programming/examples/print-integer");
+                break;
+        case 2: system("firefox https://www.programiz.com/c-programming/examples/factorial");
+                break;
+        case 3: system("cat q3.txt");
+                break;
+        case 4: system("cat q4.txt");
+                break;
+        default: printf("\n Sorry we do not have anymore questions for you!!\n");
+    }
 }
 
 void showstats(FILE *pos)
 {
+    char exp_level[13];
     FILE *fptr;
     fptr=fopen("userdata.dat","rb");
     fptr=pos;
     fread(&f_user,sizeof(f_user),1,fptr);
-    printf("\n Username: %s\n Questions solved: %d\n Score: %d\n\n",f_user.uname,f_user.no_of_ques,f_user.score);
+    switch(f_user.no_of_ques)
+    {
+        case 0: strcpy(exp_level,"Unranked"); break;
+        case 1: strcpy(exp_level,"Beginner"); break;
+        case 2: strcpy(exp_level,"Intermediate"); break;
+        case 3: strcpy(exp_level,"Advanced"); break;
+        case 4: strcpy(exp_level,"Ace"); break;
+        default: strcpy(exp_level,"Legendary"); break;
+    }
+    qnum=f_user.no_of_ques;
+    printf("\n Username: %s\n Questions solved: %d\n Score: %d\n Programmer Level: %s\n\n",f_user.uname,f_user.no_of_ques,f_user.score,exp_level);
+    fclose(fptr);
 }
 
 void welcome(void)
