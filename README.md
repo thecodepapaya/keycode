@@ -22,7 +22,7 @@ Just clone this repository using `git clone https://github.com/ashutoshsingh05/k
 
 Change directory using `cd keycode`
 
-Make sure that all the file are in the same directory and execute the command below
+Make sure that all the files are in the same directory and execute the command below
 ```
 gcc keycode.c -o keycode.out && ./keycode.out
 ```
