@@ -1,0 +1,7 @@
++--------------------------------------------------------------+
+| QUESTION 4                                                   |
+| C Program to Find Factorial of a Number                      |
+| The factorial of a positive integer n is equal to 1*2*3*...n |
+| Find the factorial of 12 and print the answer on the console |
+| without any stray white line character                       |
++--------------------------------------------------------------+

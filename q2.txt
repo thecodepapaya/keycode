@@ -1,0 +1,6 @@
++-------------------------------------------------------+
+| QUESTION 3                                            |
+| Find average of first 20 natural numbers              |
+| Find and print the average of first 20 natural numbers|
+| without any stray whitespace chatacter                |
++-------------------------------------------------------+

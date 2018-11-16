@@ -1,0 +1,6 @@
++----------------------------------------------------+
+| QUESTION 2                                         |
+| Print the sum of first 50 natural numbers         |
+| The output should contain a single integer denoting|
+| the sum of first 50 natural numbers only           |
++----------------------------------------------------+

@@ -1,0 +1,11 @@
+#include<stdio.h>
+int main()
+{
+float avg,n=20,sum=0,i;
+for(i=1;i<=n;i++)
+{
+sum=sum+i;
+}
+avg=sum/n;
+printf("%f",avg);
+}
