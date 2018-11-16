@@ -1,0 +1,8 @@
++-----------------------------------------------+
+| QUESTION 5					|
+| Armstrong Numbers				|
+| Find and print Armstrong numbers in the range	|
+| of 1 to 1000. You must print all the numbers	|
+| on a new line without any stray whitespace 	|
+| character.					|
++-----------------------------------------------+

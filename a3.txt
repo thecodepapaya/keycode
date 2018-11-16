@@ -1,0 +1,12 @@
+#include <stdio.h>
+int main()
+{
+    int i,n=12;
+    unsigned long long factorial = 1;
+        for(i=1; i<=n; ++i)
+        {
+            factorial *= i;
+        }
+        printf("%llu",factorial);
+    return 0;
+}

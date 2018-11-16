@@ -1,0 +1,6 @@
++-----------------------------------------------------+
+| QUESTION 1                                          |
+| Print Hello KeyCode on the standard I/O console     |
+| You must print only the text "Hello KeyCode" on a   |
+| single line wothout any stray whitespace characters |
++-----------------------------------------------------+
