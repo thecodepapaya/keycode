@@ -9,15 +9,15 @@ struct userdb
     char uname[15];
 }getuser={0,0,"NULL"},f_user;
 
-void practice(FILE *);        //done
-void showstats(FILE *); //done
-void leaderboard(void);  // done
+void practice(FILE *);         //done
+void showstats(FILE *);       //done
+void leaderboard(void);      //done
 int match(int);            //done
 int scoreupdate(FILE *);   //done
-void showques(void);        //done
-void showans(void);     //done
+void showques(int);      //done
+void showans(void);      //done
 void welcome(void);     //done
-FILE* login(void);  //done
+FILE* login(void);     //done
 FILE *getpos(void); //done
 
 char username[15];
@@ -29,17 +29,18 @@ int main()
     char flag='y';
     FILE *pos;
     system("rm sol.c;rm sol;rm output.txt;touch userdata.dat");
-    system("clear");
     welcome();
     pos=login();
     showstats(pos);
     do{
-        printf("\n\n 1.) Practice\n "
-                "2.) Show Leaderboard\n "
-                "3.) Logout\n "
-                "0.) Exit\n\n "
-                "Your Choice: ");
+        printf("  \033[1;35m==========================================================\033[0m\n\n"
+            "\t \033[1;37m1) Practice                         3) Logout\n\n "
+            "\t 2) Show Leaderboard                 4) Exit\n\n "    
+            "\033[1;35m ==========================================================\033[0m\n"
+            "\t\t\033[7;37mYour Choice:\033[0m ");
         scanf("%d",&choice);
+        printf("  \033[1;35m==========================================================\033[0m\n");
+
         switch(choice)
         {
             case 1: practice(pos);
@@ -49,7 +50,8 @@ int main()
             case 3: main();
                     break;
             case 4: return 0;
-            default: printf(" Incorrect Input!!!\n");
+            default: printf("\033[1;31m-----------------Incorrect Input-------------------\033[0m\n");
+                     break;
         }
  /*       printf("\n Want to continue?(y/n): ");
         scanf("%c",&flag);*/
@@ -61,85 +63,89 @@ void practice(FILE *pos)
 {
     char ch='y';
     int choice,val,comp=0,exec=0;
-        printf("\n File ptr in practice beg: %ld\n",ftell(pos));
-        showques();
-        printf("\n !!!---Press enter to open nano text editor---!!!\n");
+    
+        printf("\n");
+        showques(qnum);
+        printf("\n\033[7;37m !!!---Press enter to open nano text editor---!!!\033[0m\n");
         getchar();
         getchar();
         system("nano sol.c");
     do{
-        printf("%s","\n 1.) View question again\n "
-                        "2.) Open text editor again\n "
-                        "3.) Compile\n "
-                        "4.) Run with custom input\n "
-                        "5.) Submit your code\n "
-                        "6.) Show answer\n "
-                        "0.) Go Back\n\n "
-                        "Your Choice: ");
+        printf("%s",    " \033[1;37m========================================================================\n"
+                        "  1.) View question again             5.) Submit your code\n\n "
+                        " 2.) Open text editor again          6.) Show answer\n\n"
+                        "  3.) Compile                         0.) Go Back\n\n"
+                        "  4.) Run with custom input\n\n"
+                        "========================================================================\033[0m\n"
+                        //"5.) Submit your code\n "
+                        //"6.) Show answer\n "
+                        //"0.) Exit\n\n "
+                        "\t   \033[7;37mYour Choice:\033[0m ");
         scanf("%d",&choice);
         pos=getpos();
-        printf("\n File ptr in practice do while: %ld\n",ftell(pos));
+        printf(" \033[1;37m========================================================================\033[0m\n");
         switch(choice)
         {
-            case 1: showques();
+            case 1: showques(qnum);
                     break;
             case 2: system("nano sol.c");
                     break;
-            case 3: val=system("gcc sol.c -o sol");
+            case 3: val=system("gcc sol.c -o sol.out");
                     if(!val)
                     {
-                        printf("\n Compilation Successful.\n");
+                        printf("\n\033[1;32m-----------------Compilation Successful-----------------\033[0m\n");
                         comp=1;
                     }
                     else
                     {
-                        printf("\n GCC returned error %d.\n Compilation unsuccessful.\n",val);
+                        printf("\n\t * * * * * GCC returned \033[1;31m ERROR %d \033[0m* * * * *\n \033[1;31m\t--!!Compilation unsuccessful!!--\033[0m\n",val);
                         comp=0;
                     }
                     break;
             case 4: 
                     if(!comp)
                     {
-                        printf("\n You need to successfully compile your program first!!!");
+                        printf("\n //////////////YOU NEED TO SUCCESSFULLY COMPILE YOUR PROGRAM FIRST /////////////");
                         exec=0;
                     }
                     else
                     {
                         printf("\n Provide your Input here(if any).\n\n");
-                        val=system("./sol");
+                        val=system("./sol.out");
                         if(val)
                         {
-                            printf("\n Execution unsuccessful.\n Error %d.\n",val);
+                            printf("\n \033[1;31mExecution unsuccessful.\n Error %d\033[0m\n",val);
                             exec=0;
                         }
                         else
                         {
-                            printf("\n Executed successfull!!!");
+                            printf("\n \033[1;32m ~ ~ ~ ~ ! ! ! ! Executed successfull ! ! ! ! ~ ~ ~ ~ \033[0m");
                             exec=1;
                         }
                     }
                     break;
             case 5: if(exec==1 || comp==1)
                     {
-                        system("./sol > output.txt"); 
+                        system("./sol.out > output.txt"); 
                         val=match(qnum);
                         if(!val)
                         {
-                            printf("\n Answer matched!!!");
+                            printf("\n \033[0;32m\t\t!!!!  Answer matched  !!!!\n\t\t\033[0m\a");
                             if(!scoreupdate(pos))
-                                printf("\n Score Updated!");
+                                printf("\033[1;32m~~~~~~~~~~~~! Score Updated !~~~~~~~~~~~~\n\033[0m\a");
                             qnum++;
+
                         }
                     }
                     else
                     {
-                        printf("\n You should at least try to compile your program first!!!");
+                        printf("\n You should at least\033[1;31m try to compile \033[0myour program first!!!\n");
                     }
                     break;
             case 6: showans();
                     break;
             case 0: return ;
-            default: printf("\n Please provide a valid input.");
+            default: printf("\n \033[1;31m>>>>>>>>>>>>>>>>>>>Please provide a valid input.<<<<<<<<<<<<<<<<<<<<<<\033[0m");
         }
     }while(1);
 }
@@ -152,11 +158,10 @@ FILE* login(void)
   /*  printf(" Enter username: ");
     getchar();
     scanf("%[^\n]s",readname);      */
-    printf("\n\n Enter Username: ");
+    printf("\n\n \033[1;37mEnter Username:\033[0m ");
 
     scanf("%s",readname);
   //                                  printf("\n read string : %s",readname);
-
     strcpy(getuser.uname,readname);
  //                                  printf("\ncopied to getuser.uname");
     fptr=fopen("userdata.dat","r+b");
@@ -165,7 +170,8 @@ FILE* login(void)
         fread(&f_user,sizeof(f_user),1,fptr);
         if(!strcmp(f_user.uname,getuser.uname))
         {
-            printf("\n Welcome Back %s\n",getuser.uname);
+            printf("\n\033[1;34m Welcome Back\033[0m \033[1;32m%s\033[0m\n",getuser.uname);
+            printf("``````````````````````````````````````\n");
             flag=1;
             break;
         }
@@ -174,7 +180,7 @@ FILE* login(void)
     {
      //   fwrite(&getuser,sizeof(getuser),1,fptr);
         fwrite(&getuser,sizeof(getuser),1,fptr);
-        printf("\n New Profile created!!\n");
+        printf("\n \033[1;33m:::::::::::::::::::::::::New Profile created!!:::::::::::::::::::::::::::\033[0m\n");
     }
     fseek(fptr,-sizeof(getuser),SEEK_CUR);
     return fptr;
@@ -182,13 +188,15 @@ FILE* login(void)
 
 void leaderboard(void)
 {
-    FILE *readptr;
     char exp_level[13];
+    FILE *readptr;
     readptr=fopen("userdata.dat","rb");
-    printf(" Name\t\tScore\tExp Level\tQuestions\n");
+    printf("===============================================================\n");
+    printf(" \033[1;33mName\t\tScore\tExp Level\tQuestions\033[0m\n");
+    printf("===============================================================\n");
     while(fread(&f_user,sizeof(f_user),1,readptr))
     {
-        switch(f_user.no_of_ques)
+                switch(f_user.no_of_ques)
         {
             case 0: strcpy(exp_level,"Unranked"); break;
             case 1: strcpy(exp_level,"Beginner"); break;
@@ -197,8 +205,9 @@ void leaderboard(void)
             case 4: strcpy(exp_level,"Ace"); break;
             default: strcpy(exp_level,"Legendary"); break;
         }
-        printf("\n %s\t\t%d\t%s\t\t%d",f_user.uname,f_user.score,exp_level,f_user.no_of_ques);
+        printf("\n %s\t\t%d\t%s\t\t%d\n",f_user.uname,f_user.score,exp_level,f_user.no_of_ques);
     }
+    printf("===============================================================\n");
     fclose(readptr);
 }
 
@@ -208,7 +217,6 @@ int scoreupdate(FILE *pos)
     FILE *fptr;
     fptr=fopen("userdata.dat","r+b");
     fptr=pos;
-    printf("\n File ptr in scoreupd: %ld\n",ftell(fptr));
 //    fseek(fptr,-sizeof(f_user),SEEK_CUR);
     fread(&f_user,sizeof(f_user),1,fptr);
     f_user.score+=10;
@@ -218,6 +226,7 @@ int scoreupdate(FILE *pos)
     fclose(fptr);
     return 0;
 }
+
 
 FILE *getpos()
 {
@@ -234,6 +243,7 @@ FILE *getpos()
     fseek(fptr,-sizeof(getuser),SEEK_CUR);
     return fptr;  
 }
+
 
 int match(int solnum)
 {
@@ -255,7 +265,7 @@ int match(int solnum)
     return ret;
 }
 
-void showques()
+void showques(int qnum)
 {
     switch(qnum)
     {
@@ -277,15 +287,15 @@ void showans(void)
 {
     switch(qnum)
     {
-        case 0: system("firefox https://www.programiz.com/c-programming/examples/print-sentence");
+        case 0: system("cat s0.txt");
                 break;
-        case 1: system("firefox https://www.programiz.com/c-programming/examples/print-integer");
+        case 1: system("cat s1.txt");
                 break;
-        case 2: system("firefox https://www.programiz.com/c-programming/examples/factorial");
+        case 2: system("cat s2.txt");
                 break;
-        case 3: system("cat q3.txt");
+        case 3: system("cat s3.txt");
                 break;
-        case 4: system("cat q4.txt");
+        case 4: system("cat s4.txt");
                 break;
         default: printf("\n Sorry we do not have anymore questions for you!!\n");
     }
@@ -293,30 +303,30 @@ void showans(void)
 
 void showstats(FILE *pos)
 {
-    char exp_level[13];
     FILE *fptr;
     fptr=fopen("userdata.dat","rb");
     fptr=pos;
     fread(&f_user,sizeof(f_user),1,fptr);
-    switch(f_user.no_of_ques)
-    {
-        case 0: strcpy(exp_level,"Unranked"); break;
-        case 1: strcpy(exp_level,"Beginner"); break;
-        case 2: strcpy(exp_level,"Intermediate"); break;
-        case 3: strcpy(exp_level,"Advanced"); break;
-        case 4: strcpy(exp_level,"Ace"); break;
-        default: strcpy(exp_level,"Legendary"); break;
-    }
     qnum=f_user.no_of_ques;
-    printf("\n Username: %s\n Questions solved: %d\n Score: %d\n Programmer Level: %s\n\n",f_user.uname,f_user.no_of_ques,f_user.score,exp_level);
-    fclose(fptr);
+    printf("\033[1;37m+-----------------------------------------------+\n");
+    printf("\033[1;37m|                                               |\n");
+    printf("\033[1;37m| \tUsername            :  %s             |\n"
+           "| \tQuestions solved    :  %d                |\n"
+           "| \tScore               :  %d               |\n\033[0m"
+           "\033[1;37m|                                               |\n",f_user.uname,f_user.no_of_ques,f_user.score);
+    printf("\033[1;37m+-----------------------------------------------+\033[0m\n");
 }
 
 void welcome(void)
 {
-    printf("\t##  ##  ###### ##      ##   #####  #####  #####   ######\n"
-           "\t## ##   ##       ##  ##    ##     ##    # ##   #  ##    \n"
-           "\t###     ####       ##      ##     ##    # ##    # ####  \n"
-           "\t## ##   ##         ##      ##     ##    # ##   #  ##    \n" 
-           "\t##  ##  ######     ##       #####  #####  #####   ######\n");
+    system("clear");
+    printf("\t\033[1;37m##########################################################################\033[0m\n"
+           "\t\033[1;37m##                                                                      ##\033[0m\n"
+           "\t\033[1;37m##\033[0m\t\033[1;34m ##  ##  ###### ##      ##\033[0m   \033[1;31m#####  #####  #####   ###### \033[0m\t\033[1;37m##\033[0m\n"
+           "\t\033[1;37m##\033[0m\t\033[1;34m ## ##   ##       ##  ##\033[0m    \033[1;31m##     ##    # ##   #  ##     \033[0m\t\033[1;37m##\033[0m\n"
+           "\t\033[1;37m##\033[0m\t\033[1;34m ###     ####       ##\033[0m      \033[1;31m##     ##    # ##    # ####   \033[0m\t\033[1;37m##\033[0m\n"
+           "\t\033[1;37m##\033[0m\t\033[1;34m ## ##   ##         ##\033[0m      \033[1;31m##     ##    # ##   #  ##     \033[0m\t\033[1;37m##\033[0m\n" 
+           "\t\033[1;37m##\033[0m\t\033[1;34m ##  ##  ######     ##\033[0m       \033[1;31m#####  #####  #####   ###### \033[0m\t\033[1;37m##\033[0m\n"
+           "\t\033[1;37m##                                                                      ##\033[0m\n"
+           "\t\033[1;37m##########################################################################\033[0m\n");
 }
