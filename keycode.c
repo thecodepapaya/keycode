@@ -34,16 +34,16 @@ int main()
     pos=login();
     showstats(pos);
     do{
-        printf("  \033[1;35m==========================================================\033[0m\n\n"
+        printf("\033[1;35m==========================================================\033[0m\n\n"
             "\t \033[1;37m1) Practice                         3) Logout\n\n "
-            "\t 2) Show Leaderboard                 4) Exit\n\n "
+            "\t 2) Show Leaderboard                 4) Exit\n\n"
             
-            "\033[1;35m ==========================================================\033[0m\n");
+            "\033[1;35m==========================================================\033[0m\n");
         do{
         printf("\n\t\033[7;37mYour Choice:\033[0m ");
         scanf("%d",&choice);
         }while(choice!=1&&choice!=2&&choice!=3&&choice!=4 );
-        printf("  \033[1;35m==========================================================\033[0m\n");
+        printf("\033[1;35m==========================================================\033[0m\n");
         switch(choice)
         {
             case 1: practice(pos);
@@ -188,7 +188,7 @@ void leaderboard(void)
     printf("===============================================================\n");
     while(fread(&f_user,sizeof(f_user),1,readptr))
     {
-                switch(f_user.no_of_ques)
+        switch(f_user.no_of_ques)
         {
             case 0: strcpy(exp_level,"Unranked"); break;
             case 1: strcpy(exp_level,"Beginner"); break;
@@ -304,6 +304,7 @@ void showstats(FILE *pos)
     printf("\033[1;37m \tUsername            :  %s    \n"
            " \tQuestions solved    :  %d                \n"
            " \tScore               :  %d             \n\033[0m"
+           " \tLevel               :  %s  "
            "\033[1;37m                                               \n",f_user.uname,f_user.no_of_ques,f_user.score);
     printf("\033[1;37m+-----------------------------------------------+\033[0m\n");
 }
