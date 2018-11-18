@@ -304,7 +304,6 @@ void showstats(FILE *pos)
     printf("\033[1;37m \tUsername            :  %s    \n"
            " \tQuestions solved    :  %d                \n"
            " \tScore               :  %d             \n\033[0m"
-           " \tLevel               :  %s  "
            "\033[1;37m                                               \n",f_user.uname,f_user.no_of_ques,f_user.score);
     printf("\033[1;37m+-----------------------------------------------+\033[0m\n");
 }
